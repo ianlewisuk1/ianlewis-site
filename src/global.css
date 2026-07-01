@@ -1,11 +1,27 @@
 :root {
   --bg: #0d1520;
   --fg: #e8e8e8;
+  --fg-muted: rgba(255,255,255,0.5);
+  --fg-subtle: rgba(255,255,255,0.35);
+  --border-faint: rgba(255,255,255,0.06);
+  --border: rgba(255,255,255,0.1);
+  --border-strong: rgba(255,255,255,0.15);
+  --card-bg: rgba(255,255,255,0.03);
+  --card-bg-strong: rgba(255,255,255,0.04);
+  --nav-bg: rgba(13,21,32,0.85);
 }
 
 [data-theme="light"] {
   --bg: #f0ebe2;
   --fg: #1a2332;
+  --fg-muted: rgba(26,35,50,0.6);
+  --fg-subtle: rgba(26,35,50,0.42);
+  --border-faint: rgba(26,35,50,0.08);
+  --border: rgba(26,35,50,0.12);
+  --border-strong: rgba(26,35,50,0.18);
+  --card-bg: rgba(26,35,50,0.035);
+  --card-bg-strong: rgba(26,35,50,0.05);
+  --nav-bg: rgba(240,235,226,0.85);
 }
 
 *, *::before, *::after {

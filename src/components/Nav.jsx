@@ -1,59 +1,124 @@
 import { useState } from 'react';
 import logoWhiteYellow from '../assets/logo_white_yellow.png';
 import logoYellowWhite from '../assets/logo_yellow_white.png';
+import resumePdf from '../assets/ian_lewis_cv.pdf';
 
-export default function Nav() {
-  const [open, setOpen] = useState(false);
+const EMAIL = 'ianlewisuk1@gmail.com';
+
+function SunIcon() {
+  return (
+    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true">
+      <circle cx="12" cy="12" r="5" />
+      <line x1="12" y1="1" x2="12" y2="3" />
+      <line x1="12" y1="21" x2="12" y2="23" />
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" />
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
+      <line x1="1" y1="12" x2="3" y2="12" />
+      <line x1="21" y1="12" x2="23" y2="12" />
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
+    </svg>
+  );
+}
+
+function MoonIcon() {
+  return (
+    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true">
+      <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+    </svg>
+  );
+}
+
+export default function Nav({ theme, onToggleTheme }) {
+  const isDark = theme === 'dark';
+  const [copied, setCopied] = useState(false);
+
+  const handleCopyEmail = async () => {
+    try {
+      await navigator.clipboard.writeText(EMAIL);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch {
+      window.prompt('Copy email:', EMAIL);
+    }
+  };
 
   return (
     <>
       <style>{`
-        .nav-links {
-          display: flex;
-          gap: 2rem;
-        }
-        .nav-burger {
-          display: none;
-          flex-direction: column;
-          gap: 5px;
-          background: none;
-          border: none;
-          cursor: pointer;
-          padding: 4px;
-        }
-        .nav-burger span {
-          display: block;
-          width: 24px;
-          height: 2px;
-          background: rgba(255,255,255,0.7);
-          border-radius: 2px;
-          transition: opacity 0.2s;
-        }
-        @keyframes fadeIn {
-          from { opacity: 0; }
-          to { opacity: 1; }
-        }
-        @keyframes fadeInUp {
-          from { opacity: 0; transform: translateY(12px); }
-          to { opacity: 1; transform: translateY(0); }
-        }
-        .overlay-fade { animation: fadeIn 0.25s ease forwards; }
-        .overlay-link { opacity: 0; animation: fadeInUp 0.3s ease forwards; }
-        .overlay-link:nth-child(1) { animation-delay: 0.1s; }
-        .overlay-link:nth-child(2) { animation-delay: 0.18s; }
-        .overlay-link:nth-child(3) { animation-delay: 0.26s; }
         .logo-wrap { position: relative; width: 60px; height: 60px; flex-shrink: 0; cursor: pointer; margin-left: -0.75rem; }
         .logo-wrap img { position: absolute; top: 0; left: 0; width: 60px; height: 60px; border-radius: 4px; transition: opacity 0.15s; user-select: none; -webkit-user-drag: none; }
         .logo-default { opacity: 1; }
         .logo-hover { opacity: 0; }
         .logo-wrap:hover .logo-default, .logo-wrap:active .logo-default { opacity: 0; }
         .logo-wrap:hover .logo-hover, .logo-wrap:active .logo-hover { opacity: 1; }
+        .theme-toggle {
+          background: none;
+          border: 1px solid rgba(128,128,128,0.3);
+          border-radius: 50%;
+          width: 32px;
+          height: 32px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          cursor: pointer;
+          color: inherit;
+          opacity: 0.7;
+          transition: opacity 0.2s, border-color 0.2s;
+        }
+        .theme-toggle:hover { opacity: 1; border-color: rgba(128,128,128,0.6); }
+        .theme-toggle:focus-visible {
+          outline: 2px solid #c8a030;
+          outline-offset: 3px;
+          opacity: 1;
+        }
+        .resume-wrap {
+          display: flex;
+          align-items: center;
+          gap: 0.4rem;
+        }
+        .resume-link {
+          font-size: 1.9rem;
+          font-weight: 500;
+          color: var(--fg);
+          opacity: 0.85;
+          border-bottom: 1px solid var(--border-strong);
+          padding-bottom: 2px;
+          transition: opacity 0.2s;
+        }
+        .resume-link:hover { opacity: 1; }
+        .contact-link {
+          font-size: 1.9rem;
+          font-weight: 500;
+          color: var(--fg);
+          opacity: 0.85;
+          background: none;
+          border: none;
+          border-bottom: 1px solid var(--border-strong);
+          padding: 0 0 2px;
+          cursor: pointer;
+          transition: opacity 0.2s;
+        }
+        .contact-link:hover { opacity: 1; }
+        .contact-wrap {
+          display: flex;
+          align-items: center;
+          gap: 0.4rem;
+        }
+        .flash-arrow {
+          font-size: 1.5rem;
+          color: #c8a030;
+          animation: flash-arrow 1s ease-in-out infinite;
+        }
+        @keyframes flash-arrow {
+          0%, 100% { opacity: 1; transform: translateX(0); }
+          50% { opacity: 0.2; transform: translateX(-4px); }
+        }
         @media (max-width: 640px) {
-          .nav-burger { display: flex; }
-          .nav-links { display: none; }
+          .site-nav { padding: 1rem 1.25rem !important; }
         }
       `}</style>
-      <nav style={navStyle}>
+      <nav style={navStyle} className="site-nav">
         <div style={brandStyle}>
           <div className="logo-wrap">
             <img src={logoWhiteYellow} alt="Ian Lewis logo" className="logo-default" />
@@ -61,24 +126,27 @@ export default function Nav() {
           </div>
           <span style={logoStyle}>Ian<br />Lewis</span>
         </div>
-        <div className="nav-links">
-          <a href="#projects" style={linkStyle}>projects</a>
-          <a href="#contact" style={linkStyle}>contact me</a>
-          <a href="#about" style={linkStyle}>about me</a>
+        <div style={navActionsStyle}>
+          <div className="resume-wrap">
+            <span className="flash-arrow" aria-hidden="true">→</span>
+            <a href={resumePdf} target="_blank" rel="noopener noreferrer" className="resume-link">resume</a>
+          </div>
+          <div className="contact-wrap">
+            <span className="flash-arrow" aria-hidden="true">→</span>
+            <button className="contact-link" onClick={handleCopyEmail} aria-live="polite">
+              {copied ? 'email copied!' : 'contact me'}
+            </button>
+          </div>
+          <button
+            className="theme-toggle"
+            onClick={onToggleTheme}
+            aria-label={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
+            aria-pressed={!isDark}
+          >
+            {isDark ? <SunIcon /> : <MoonIcon />}
+          </button>
         </div>
-        <button className="nav-burger" onClick={() => setOpen(o => !o)} aria-label="Toggle menu">
-          <span />
-          <span />
-          <span />
-        </button>
       </nav>
-      {open && (
-        <div style={overlayStyle} className="overlay-fade" onClick={() => setOpen(false)}>
-          <a href="#projects" style={overlayLinkStyle} className="overlay-link" onClick={() => setOpen(false)}>projects</a>
-          <a href="#contact" style={overlayLinkStyle} className="overlay-link" onClick={() => setOpen(false)}>contact me</a>
-          <a href="#about" style={overlayLinkStyle} className="overlay-link" onClick={() => setOpen(false)}>about me</a>
-        </div>
-      )}
     </>
   );
 }
@@ -93,9 +161,9 @@ const navStyle = {
   justifyContent: 'space-between',
   alignItems: 'center',
   padding: '1.25rem 2.5rem',
-  borderBottom: '1px solid rgba(255,255,255,0.06)',
+  borderBottom: '1px solid var(--border-faint)',
   backdropFilter: 'blur(12px)',
-  background: 'rgba(13,21,32,0.85)',
+  background: 'var(--nav-bg)',
 };
 
 const brandStyle = {
@@ -104,6 +172,11 @@ const brandStyle = {
   gap: '0.75rem',
 };
 
+const navActionsStyle = {
+  display: 'flex',
+  alignItems: 'center',
+  gap: '1.5rem',
+};
 
 const logoStyle = {
   fontSize: '1.4rem',
@@ -111,33 +184,5 @@ const logoStyle = {
   fontFamily: "'Raleway', sans-serif",
   letterSpacing: '0.1em',
   lineHeight: 1.2,
-  color: '#fff',
-};
-
-const linkStyle = {
-  fontSize: '1.7rem',
-  color: 'rgba(255,255,255,0.5)',
-  fontWeight: 500,
-  cursor: 'pointer',
-};
-
-const overlayStyle = {
-  position: 'fixed',
-  inset: 0,
-  zIndex: 98,
-  background: 'rgba(13,21,32,0.92)',
-  backdropFilter: 'blur(16px)',
-  WebkitBackdropFilter: 'blur(16px)',
-  display: 'flex',
-  flexDirection: 'column',
-  alignItems: 'center',
-  justifyContent: 'center',
-  gap: '2.5rem',
-};
-
-const overlayLinkStyle = {
-  fontSize: '1.5rem',
-  color: 'rgba(255,255,255,0.7)',
-  fontWeight: 500,
-  cursor: 'pointer',
+  color: 'var(--fg)',
 };

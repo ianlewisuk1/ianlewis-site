@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import Nav from './components/Nav.jsx';
 import Banner from './components/Banner.jsx';
 import Hero from './components/Hero.jsx';
+import Projects from './components/Projects.jsx';
 
 export default function App() {
   const [theme, setTheme] = useState(() => {
@@ -19,9 +20,10 @@ export default function App() {
 
   return (
     <>
-      <Nav />
-      <Banner theme={theme} onToggleTheme={toggleTheme} />
+      <Nav theme={theme} onToggleTheme={toggleTheme} />
+      <Banner />
       <Hero />
+      <Projects />
     </>
   );
 }
