@@ -116,6 +116,10 @@ export default function Nav({ theme, onToggleTheme }) {
         }
         @media (max-width: 640px) {
           .site-nav { padding: 1rem 1.25rem !important; }
+          .nav-actions { gap: 0.75rem !important; }
+          .resume-wrap, .contact-wrap { gap: 0.2rem !important; }
+          .resume-link, .contact-link { font-size: 0.85rem !important; }
+          .flash-arrow { font-size: 0.9rem !important; }
         }
       `}</style>
       <nav style={navStyle} className="site-nav">
@@ -126,7 +130,7 @@ export default function Nav({ theme, onToggleTheme }) {
           </div>
           <span style={logoStyle}>Ian<br />Lewis</span>
         </div>
-        <div style={navActionsStyle}>
+        <div style={navActionsStyle} className="nav-actions">
           <div className="resume-wrap">
             <span className="flash-arrow" aria-hidden="true">→</span>
             <a href={resumePdf} target="_blank" rel="noopener noreferrer" className="resume-link">resume</a>
