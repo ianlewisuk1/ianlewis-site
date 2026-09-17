@@ -21,6 +21,7 @@ const OTHER_PROJECTS = [
     stack: ['React', 'JavaScript', 'Supabase', 'Edge Functions', 'Render', 'Vercel'],
     logo: lineupLogo,
     url: 'https://lineupcfb.com',
+    appStoreUrl: 'https://apps.apple.com/app/id6803617593',
   },
   {
     name: 'The Dugout',
@@ -85,7 +86,8 @@ export default function Projects() {
         <p style={{ ...colLabelStyle, marginTop: '3rem' }}>More Projects</p>
         <div style={cardsWrapStyle}>
           {OTHER_PROJECTS.map(p => (
-            <a key={p.name} href={p.url} target="_blank" rel="noopener noreferrer" style={cardStyle} aria-label={p.name}>
+            <div key={p.name} style={cardStyle}>
+              <a href={p.url} target="_blank" rel="noopener noreferrer" style={cardLinkStyle} aria-label={p.name} />
               <div style={cardHeaderStyle}>
                 <div style={logoBoxStyle}>
                   <img src={p.logo} alt="" style={logoImgStyle} />
@@ -98,7 +100,21 @@ export default function Projects() {
                   <span key={tech} style={stackTagStyle}>{tech}</span>
                 ))}
               </div>
-            </a>
+              {p.appStoreUrl && (
+                <a
+                  href={p.appStoreUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={appStoreLinkStyle}
+                  aria-label={`${p.name} on the App Store`}
+                >
+                  <svg viewBox="0 0 384 512" width="12" height="14" fill="currentColor" aria-hidden="true">
+                    <path d="M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7C63.3 141.2 4 184.8 4 273.5q0 39.3 14.4 81.2c12.8 36.7 59 126.7 107.2 125.2 25.2-.6 43-17.9 75.8-17.9 31.8 0 48.3 17.9 76.4 17.9 48.6-.7 90.4-82.5 102.6-119.3-65.2-30.7-61.7-90-61.7-91.9zm-56.6-164.2c27.3-32.4 24.8-61.9 24-72.5-24.1 1.4-52 16.4-67.9 34.9-17.5 19.8-27.8 44.3-25.6 71.9 26.1 2 49.9-11.4 69.5-34.3z" />
+                  </svg>
+                  Download on the App Store
+                </a>
+              )}
+            </div>
           ))}
         </div>
       </div>
@@ -193,7 +209,31 @@ const cardStyle = {
   borderRadius: '12px',
   background: 'var(--card-bg)',
   padding: '1.5rem',
-  cursor: 'pointer',
+  position: 'relative',
+};
+
+// Covers the whole card so it stays clickable without nesting other links inside it
+const cardLinkStyle = {
+  position: 'absolute',
+  inset: 0,
+  borderRadius: 'inherit',
+};
+
+const appStoreLinkStyle = {
+  position: 'relative',
+  zIndex: 1,
+  display: 'inline-flex',
+  alignItems: 'center',
+  gap: '0.4rem',
+  alignSelf: 'flex-start',
+  marginTop: 'auto',
+  fontSize: '0.75rem',
+  fontWeight: 600,
+  color: 'var(--fg)',
+  border: '1px solid var(--border-strong)',
+  borderRadius: '6px',
+  background: 'var(--card-bg-strong)',
+  padding: '0.45rem 0.75rem',
 };
 
 const cardHeaderStyle = {

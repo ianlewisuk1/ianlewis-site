@@ -2,6 +2,8 @@ import { useState } from 'react'
 import profilePic from '../assets/ian.jpeg'
 import profilePicBack from '../assets/ian_pic_2.jpeg'
 
+const ROLES = ['full-stack software engineer', 'forward deployed engineer', 'ai engineer'];
+
 const GITHUB_URL = 'https://github.com/ianlewisuk1';
 const LINKEDIN_URL = 'https://www.linkedin.com/in/ianlewis314/';
 
@@ -15,10 +17,8 @@ function GitHubIcon() {
 
 function LinkedInIcon() {
   return (
-    <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-      <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" />
-      <rect x="2" y="9" width="4" height="12" />
-      <circle cx="4" cy="4" r="2" />
+    <svg viewBox="0 0 24 24" width="32" height="32" fill="currentColor" aria-hidden="true">
+      <path d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.41v1.56h.05c.48-.9 1.63-1.85 3.36-1.85 3.6 0 4.27 2.37 4.27 5.45v6.29zM5.34 7.43a2.07 2.07 0 1 1 0-4.14 2.07 2.07 0 0 1 0 4.14zm1.78 13.02H3.55V9h3.57v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.72v20.56C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.72V1.72C24 .77 23.2 0 22.22 0z" />
     </svg>
   );
 }
@@ -31,17 +31,19 @@ export default function Hero() {
       <style>{`
         .hero-body { display: flex; flex-direction: column; gap: 4rem; }
         .hero-text { display: flex; flex-direction: column; gap: 2rem; }
-        .hero-photo-col { order: -1; }
-        @media (max-width: 640px) {
-          .hero-photo { width: 160px !important; height: 200px !important; }
+        @media (max-width: 767px) {
+          .hero-body { gap: 2.5rem; }
+          .hero-photo-col { order: -1; }
+          .hero-photo { width: 200px !important; height: 250px !important; }
+          .social-row { width: 200px !important; }
           .hero-subtitle { font-size: 1.4rem !important; }
-          .hero-body-text { font-size: 1.05rem !important; }
+          .hero-body-text { font-size: 0.9rem !important; }
           .hero-name { font-size: 1.05rem !important; }
         }
         @media (min-width: 768px) {
           .hero-body { flex-direction: row; align-items: flex-start; gap: 6rem; }
           .hero-text { flex: 1 1 auto; min-width: 0; }
-          .hero-photo-col { order: 0; flex-shrink: 0; }
+          .hero-photo-col { flex-shrink: 0; }
           .hero-section { padding-left: 6rem !important; padding-right: 6rem !important; }
         }
         .hero-photo-inner { transition: transform 0.6s; transform-style: preserve-3d; }
@@ -52,13 +54,26 @@ export default function Hero() {
         .social-icon:hover { opacity: 1; }
       `}</style>
       <div style={innerStyle}>
-        <p style={nameStyle} className="hero-name">[ full-stack software engineer | forward deployed engineer | ai engineer ]</p>
+        <p style={nameStyle} className="hero-name">
+          {'[ '}
+          {ROLES.map((role, i) => (
+            <span key={role} style={roleStyle}>
+              {role}{i < ROLES.length - 1 ? ' |' : ''}
+            </span>
+          ))}
+          {' ]'}
+        </p>
         <div className="hero-body">
           <div className="hero-text">
             <div style={contentGroupStyle}>
               <div style={textBlockStyle}>
                 <p style={subtitleStyle} className="hero-subtitle">who am i?</p>
-                <p style={bodyStyle} className="hero-body-text">Full-stack software engineer with multiple years of experience in the JavaScript, TypeScript and Python ecosystems. Recent work includes a self-hosted observability pipeline with built-in cardinality control, a webhook inspection service deployed in a custom AWS environment, and a RAG application. Prior to software engineering, I developed a strong background in educational administration.</p>
+                <p style={bodyStyle} className="hero-body-text">Full-stack engineer working primarily with TypeScript, 
+                  JavaScript, Node.js and React. I have built Trickl, a self-hosted observability platform with a 
+                  Vector ingestion pipeline, VictoriaMetrics backend and built-in cardinality control, 
+                  and LineupCFB, a college fantasy football platform with live score ingestion, deployed 
+                  on the Apple App Store and running a full season with real users, amongst other projects. 
+                  Proficient with Claude Code and disciplined about where it belongs in a workflow.</p>
                 <p style={locationStyle}>📍 Raleigh, NC</p>
               </div>
             </div>
@@ -78,7 +93,7 @@ export default function Hero() {
                 <img src={profilePicBack} style={photoFaceStyle} className="hero-photo-face hero-photo-face-back" alt="" />
               </div>
             </div>
-            <div style={socialRowStyle}>
+            <div style={socialRowStyle} className="social-row">
               <a href={GITHUB_URL} target="_blank" rel="noopener noreferrer" aria-label="GitHub" style={socialIconStyle} className="social-icon">
                 <GitHubIcon />
               </a>
@@ -115,6 +130,13 @@ const nameStyle = {
   backgroundClip: 'text',
 };
 
+// Keeps each role intact so the line only ever breaks at a separator
+const roleStyle = {
+  display: 'inline-block',
+  whiteSpace: 'nowrap',
+  marginRight: '0.35em',
+};
+
 const textBlockStyle = {
   display: 'flex',
   flexDirection: 'column',
@@ -128,7 +150,7 @@ const contentGroupStyle = {
 };
 
 const bodyStyle = {
-  fontSize: '1.5rem',
+  fontSize: '1.125rem',
   color: 'var(--fg)',
   lineHeight: 1.8,
 };
@@ -152,7 +174,7 @@ const subtitleStyle = {
 const photoColStyle = {
   display: 'flex',
   flexDirection: 'column',
-  alignItems: 'center',
+  alignItems: 'flex-start',
   gap: '1rem',
 };
 
@@ -165,10 +187,17 @@ const photoStyle = {
 
 const socialRowStyle = {
   display: 'flex',
-  gap: '2.25rem',
+  width: '240px', // match the photo so the icons center under it, not under the page
+  justifyContent: 'center',
+  gap: '1.5rem',
 };
 
 const socialIconStyle = {
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  width: '44px',
+  height: '44px',
   color: 'var(--fg)',
   cursor: 'pointer',
 };
