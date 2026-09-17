@@ -123,7 +123,7 @@ export default function Projects() {
 }
 
 const sectionStyle = {
-  padding: '3rem 2.5rem 8rem',
+  padding: '2rem 2.5rem 8rem',
   borderTop: '1px solid var(--border-faint)',
 };
 

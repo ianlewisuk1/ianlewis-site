@@ -111,7 +111,7 @@ export default function Hero() {
 const sectionStyle = {
   display: 'flex',
   alignItems: 'flex-start',
-  padding: '4rem 2.5rem',
+  padding: '4rem 2.5rem 2rem',
 };
 
 const innerStyle = {
